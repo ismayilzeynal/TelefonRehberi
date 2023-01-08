@@ -30,7 +30,9 @@ static void MainMenu()
             Console.WriteLine("D seçildi");
             break;
         default:
-            Console.WriteLine("Yanlış girdiniz");
+            Console.Clear();
+            WrongInput();
+            MainMenu();
             break;
     }
 }
@@ -48,22 +50,19 @@ static void ChoiseA()
 
     Console.Write("Telefon: ");
     TelefonNumarasi = Console.ReadLine();
-    if (!CheckValidPhoneNumber(TelefonNumarasi))
-        do
-        {
-            WrongInput();
-            TelefonNumarasi = Console.ReadLine();
-        } while (!CheckValidPhoneNumber(TelefonNumarasi));
+    while (!CheckValidPhoneNumber(TelefonNumarasi))
+    {
+        WrongInput();
+        TelefonNumarasi = Console.ReadLine();
+    }
 
     Console.Write("E-mail: ");
-
     Email = Console.ReadLine();
-    if (!CheckValidMail(Email))
-        do
-        {
-            WrongInput();
-            Email = Console.ReadLine();
-        } while (!CheckValidMail(Email));
+    while (!CheckValidMail(Email))
+    {
+        WrongInput();
+        Email = Console.ReadLine();
+    } 
 
     NextA(Ad, Soyad, TelefonNumarasi, Email);
 }
