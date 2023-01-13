@@ -1,4 +1,5 @@
 ﻿using DataApp.Models;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
@@ -22,12 +23,15 @@ static void MainMenu()
             ChoiseA();
             break;
         case "L":
+            ChoiseL();
             Console.WriteLine("L seçildi");
             break;
         case "S":
+            ChoiseS();
             Console.WriteLine("S seçildi");
             break;
         case "E":
+            ChoiseE();
             Console.WriteLine("E seçildi");
             break;
         default:
@@ -101,7 +105,23 @@ static void ChoiseL()
 
 static void ChoiseS()
 {
+    NorthwindContext db = new NorthwindContext();
+    Console.Clear();
+    Console.WriteLine("Axtarış üçün simvol daxil edin: ");
+    string SearchTip=Console.ReadLine();
+    bool IsFound = false;
+    var Users = db.Users.ToList();
+    foreach (var user in Users)
+    {
+        if(user.FirstName.Contains(SearchTip) || user.LastName.Contains(SearchTip) || user.EmailAddress.Contains(SearchTip) || user.Phone.Contains(SearchTip) || user.EmployeeId.ToString().Contains(SearchTip))
+        {
+            Console.WriteLine($"{user.EmployeeId}\t {user.FirstName}\t\t {user.LastName}\t\t{user.EmailAddress}\t\t {user.Phone}");
+            IsFound = true;
+        }
+    }
+    if (!IsFound) Console.WriteLine("Heç bir nəticə tapılmadı");
 
+    ChoiseL();
 }
 
 static void ChoiseE()
@@ -230,12 +250,12 @@ static void DeleteUser()
 static void PrintUsers()
 {
     NorthwindContext db = new NorthwindContext();
-    Console.WriteLine("ID\t\t FirstName\t\t LastName\t\t Mail\t\t Phone");
+    Console.WriteLine($"{"ID",-10} {"FirstName",-20} {"LastName",-25} {"Email",-30} {"Phone",-30}");
 
     var Users = db.Users.ToList();
     foreach (var user in Users)
     {
-        Console.WriteLine($"{user.EmployeeId,-10} {user.FirstName,-40} {user.LastName,-40} {user.EmailAddress,-40} {user.Phone,-40}");
+        Console.WriteLine($"{user.EmployeeId,-10} {user.FirstName,-20} {user.LastName,-25} {user.EmailAddress,-30} {user.Phone,-30}");
     }
 }
 
@@ -249,7 +269,7 @@ static void NextChoiseA()
         case "A":
             ChoiseA();
             break;
-        case "B":
+        case "M":
             MainMenu();
             break;
         default:
@@ -292,66 +312,4 @@ static void AddUserToDb(string Ad, string Soyad, string TelefonNumarasi, string 
     });
     db.SaveChanges();
 }
-
-
-
-
-//static Array EnterUserInfo()
-//{
-//    string Ad, Soyad, TelefonNumarasi, Email;
-//    Console.Write("Kullanıcının adı: ");
-//    Ad = Console.ReadLine();
-//    Console.Write("Kullanıcının  Soyadı: ");
-//    Soyad = Console.ReadLine();
-
-//    Console.Write("Telefon: ");
-//    TelefonNumarasi = Console.ReadLine();
-//    while (!CheckValidPhoneNumber(TelefonNumarasi))
-//    {
-//        WrongInput();
-//        TelefonNumarasi = Console.ReadLine();
-//    }
-
-//    Console.Write("E-mail: ");
-//    Email = Console.ReadLine();
-//    while (!CheckValidMail(Email))
-//    {
-//        WrongInput();
-//        Email = Console.ReadLine();
-//    }
-//    string[] UserInfos = {Ad, Soyad, TelefonNumarasi, Email};
-//    return UserInfos;
-//}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
